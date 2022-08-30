@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.urls import reverse
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -21,6 +22,7 @@ class Author(models.Model):
 class Category(models.Model):
     category_name = models.CharField(max_length=100, unique=True)
 
+
 class Post(models.Model):
     article = 'AR'
     news = 'NE'
@@ -31,7 +33,7 @@ class Post(models.Model):
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
     select_choices = models.CharField(max_length=2, choices=POSITIONS, default=news)
     time = models.DateTimeField(auto_now_add=True)
-    category = models.ManyToManyField(Category, through='PostCategory')
+    category = models.ManyToManyField('Category', through='PostCategory')
     heading_post = models.CharField(max_length=100)
     text_post = models.TextField()
     rating_post = models.IntegerField(default=0)
@@ -46,6 +48,9 @@ class Post(models.Model):
 
     def preview(self):
         return self.text_post[:124] + '...'
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.id)])
 
 
 class PostCategory(models.Model):
