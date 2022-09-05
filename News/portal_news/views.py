@@ -1,12 +1,11 @@
-from django.urls import reverse_lazy
 from datetime import datetime
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
 )
-
 from .filters import PostFilter
 from .forms import PostForm
 from .models import Post
+
 
 class PostList(ListView):
     model = Post
@@ -15,21 +14,11 @@ class PostList(ListView):
     context_object_name = 'news'
     paginate_by = 4
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        self.filterset = PostFilter(self.request.GET, queryset)
-        return self.filterset.qs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['filterset'] = PostFilter
-        context['time_now'] = datetime.utcnow()
-        return context
-
 class SearchPost(ListView):
     model = Post
+    ordering = '-rating_post'
     template_name = 'search_news.html'
-    context_object_name = 'search'
+    context_object_name = 'news'
     paginate_by = 3
 
     def get_queryset(self):
@@ -39,8 +28,7 @@ class SearchPost(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['filterset'] = PostFilter
-        context['time_now'] = datetime.utcnow()
+        context['filterset'] = self.filterset
         return context
 
 class PostDetail(DetailView):
@@ -48,32 +36,33 @@ class PostDetail(DetailView):
     template_name = 'new.html'
     context_object_name = 'new'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['time_now'] = datetime.utcnow()
+        context['New posts is coming soon'] = None
+        return context
+
 class PostCreate(CreateView):
     form_class = PostForm
     model = Post
     template_name = 'news_edit.html'
 
-class ArticleCreate(CreateView):
-    form_class = PostForm
-    model = Post
-    template_name = 'article.html'
+    def form_valid(self, form):
+        if self.request.path == '/news/articles/create':
+            post = form.save(commit=False)
+            post.select_choices = 'AR'
+        else:
+            post = form.save(commit=False)
+            post.select_choices = 'NE'
+        return super().form_valid(form)
 
 class PostUpdate(UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'news_edit.html'
 
-class ArticleUpdate(UpdateView):
-    form_class = PostForm
-    model = Post
-    template_name = 'article.html'
-
 class PostDelete(DeleteView):
     model = Post
     template_name = 'news_delete.html'
-    success_url = reverse_lazy('post_list')
+    success_url = '/news/'
 
-class ArticleDelete(DeleteView):
-    model = Post
-    template_name = 'article_delete.html'
-    success_url = reverse_lazy('post_list')

@@ -10,12 +10,10 @@ class PostFilter(FilterSet):
                       )
     class Meta:
         model = Post
-        fields = [
-            'heading_post',
-            'author',
-            'select_choices',
-            'time'
-        ]
+        fields = {
+            'category': ['exact'],
+            'select_choices': ['exact'],
+        }
 
 
 

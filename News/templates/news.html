@@ -19,7 +19,6 @@ Post
                <td><strong><span style="text-decoration: underline;">№</span></strong></td>
                <td><strong><span style="text-decoration: underline;">Заголовок</span></strong></td>
                <td><strong><span style="text-decoration: underline;">Описание</span></strong></td>
-               <td><strong><span style="text-decoration: underline;">Новость/статья</span></strong></td>
                <td><strong><span style="text-decoration: underline;">Дата публикации</span></strong></td>
            </tr>
 
@@ -31,7 +30,6 @@ Post
                <td>{{ new.pk|truncatechars:20|censor }}</td>
                <td>{{ new.heading_post|truncatechars:20|censor }}</td>
                <td>{{ new.text_post|truncatechars:20|censor }}</td>
-               <td>{{ new.select_choices|truncatechars:20|censor }}</td>
                <td>{{ new.time|date:'d. m. Y' }}</td>
            </tr>
            {% endfor %}

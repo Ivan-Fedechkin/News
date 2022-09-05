@@ -22,6 +22,9 @@ class Author(models.Model):
 class Category(models.Model):
     category_name = models.CharField(max_length=100, unique=True)
 
+    def __str__(self):
+        return f'{self.category_name}'
+
 
 class Post(models.Model):
     article = 'AR'
@@ -31,12 +34,15 @@ class Post(models.Model):
         (news, 'Новость')
     ]
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
-    select_choices = models.CharField(max_length=2, choices=POSITIONS, default=news)
+    select_choices = models.CharField(max_length=2, choices=POSITIONS)
     time = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField('Category', through='PostCategory')
     heading_post = models.CharField(max_length=100)
     text_post = models.TextField()
     rating_post = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.category.name}'
 
     def like(self):
         self.rating_post += 1
@@ -50,7 +56,7 @@ class Post(models.Model):
         return self.text_post[:124] + '...'
 
     def get_absolute_url(self):
-        return reverse('post_detail', args=[str(self.id)])
+        return reverse('post_list')
 
 
 class PostCategory(models.Model):
@@ -61,9 +67,12 @@ class PostCategory(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    text_comment = models.CharField(max_length=255)
+    text_comment = models.TextField()
     time_in = models.DateTimeField(auto_now_add=True)
     rating_comment = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.text_comment.title()
 
     def like(self):
         self.rating_comment += 1

@@ -13,12 +13,12 @@ class PostForm(forms.ModelForm):
     )
     text_post = forms.CharField(label='Текст', widget=forms.Textarea)
 
-
     class Meta:
         model = Post
         fields = [
             'heading_post',
             'text_post',
+            'category',
             'author',
             'select_choices'
         ]

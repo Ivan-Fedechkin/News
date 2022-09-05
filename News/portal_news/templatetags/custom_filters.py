@@ -2,7 +2,7 @@ from django import template
 
 register = template.Library()
 
-wrong_words = ['утбол', 'чемп', 'ext']
+wrong_words = ['нельзя', 'война', 'охота']
 
 
 @register.filter()
