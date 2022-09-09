@@ -29,7 +29,7 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
-ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
+ACCOUNT_FORMS = {'signup': 'sign.models.BaseRegisterForm'}
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
@@ -72,6 +72,8 @@ AUTHENTICATION_BACKENDS = [
 
 
 LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/news'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 WSGI_APPLICATION = 'News.wsgi.application'
 
