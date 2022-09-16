@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'django_apscheduler',
 
     'portal_news',
     'django_filters',
@@ -29,6 +30,9 @@ INSTALLED_APPS = [
 ]
 DEFAULT_FROM_EMAIL = 'fedechkinivan@yandex.ru'
 SITE_ID = 1
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25
 
 ACCOUNT_FORMS = {'signup': 'sign.models.BaseRegisterForm'}
 
