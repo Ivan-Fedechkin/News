@@ -1,24 +1,29 @@
 from django import forms
-from .models import Post, Category
+from django.forms import ModelForm, HiddenInput, CharField, Textarea
+from .models import Post
 from .models import Author
-
-class PostForm(forms.ModelForm):
+from allauth.account.forms import SignupForm
+from django.contrib.auth.models import Group
+#news/create
+class PostForm(ModelForm):
     author = forms.ModelChoiceField(
         label='Автор',
         queryset=Author.objects.order_by('-user').all(),
         empty_label='Выберите автора',
     )
-    heading_post = forms.CharField(
-        label='Название - заголовок'
-    )
-    text_post = forms.CharField(label='Текст', widget=forms.Textarea)
+    heading_post = CharField(label='Название - заголовок')
+    text_post = CharField(label='Текст', widget=Textarea)
 
     class Meta:
         model = Post
-        fields = [
-            'heading_post',
-            'text_post',
-            'category',
-            'author',
-            'select_choices'
-        ]
+        fields = ['heading_post', 'select_choices', 'category', 'text_post', 'author']
+        widgets = {
+            'author': HiddenInput(),
+        }
+
+    class CommonSignupForm(SignupForm):
+        def save(self, request):
+            user = super(CommonSignupForm, self).save(request)
+            common_group = Group.objects.get(name='common')
+            common_group.user_set.add(user)
+            return user
