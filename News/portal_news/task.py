@@ -15,7 +15,7 @@ def send_mail_news(pk_, id_categories_):
     emails = User.objects.filter(category__id__in=id_categories_).values('email').distinct()
     emails_list = [item['email'] for item in emails]  # mail list for sent mail
     html_content = render_to_string(
-        'appointment_created.html',
+        'mail_created.html',
         {
             'Create_news': post,
         }
@@ -50,7 +50,7 @@ def week_news():
         print(subscribers_emails)
 
         if list_of_posts:
-            html_content = render_to_string('mail_created.html', {'posts': list_of_posts, 'category': category_.name})
+            html_content = render_to_string('week_news.html', {'posts': list_of_posts, 'category': category_.name})
             # формируем тело письма
             msg = EmailMultiAlternatives(
                 subject=f'Новости за неделю',

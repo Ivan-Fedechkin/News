@@ -104,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
 
@@ -125,3 +125,9 @@ EMAIL_PORT = 465  # порт smtp сервера тоже одинаковый
 EMAIL_HOST_USER = 'fedechkinivan'  # ваше имя пользователя, например, если ваша почта user@yandex.ru, то сюда надо писать user, иными словами, это всё то что идёт до собаки
 EMAIL_HOST_PASSWORD = '824222stifler'  # пароль от почты
 EMAIL_USE_SSL = True
+
+CELERY_BROKER_URL = 'redis://:A0FxX16i9kYl0afo6mJUkB4b9zFkdtgC@redis-17020.c265.us-east-1-2.ec2.cloud.redislabs.com:17020/0'
+CELERY_RESULT_BACKEND = 'redis://:A0FxX16i9kYl0afo6mJUkB4b9zFkdtgC@redis-17020.c265.us-east-1-2.ec2.cloud.redislabs.com:17020/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
