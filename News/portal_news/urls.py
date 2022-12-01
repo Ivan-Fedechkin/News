@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     PostList, PostDetail, SearchPost, PostCreate, PostUpdate,
-    PostDelete, upgrade_me, subscribe, unsubscribe, IndexView
+    PostDelete, upgrade_me, subscribe, unsubscribe, IndexView, AppointmentView
 )
 from django.contrib.auth.views import LoginView, LogoutView
 
@@ -21,5 +21,6 @@ urlpatterns = [
    path('upgrade/', upgrade_me, name='upgrade_me'),
    path('subscribe/<int:pk>', subscribe, name='subscribe'),
    path('unsubscribe/<int:pk>', unsubscribe, name='unsubscribe'),
-   path('index/',  IndexView.as_view(), name='index')
+   path('index/',  IndexView.as_view(), name='index'),
+   path('mail/', AppointmentView.as_view(template_name='appointment_created.html'), name='appointment'),
 ]

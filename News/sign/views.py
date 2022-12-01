@@ -3,6 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import BaseRegisterForm
 from django.contrib.auth.models import User
 
+
+
 class BaseRegisterView(CreateView):
     model = User
     form_class = BaseRegisterForm
@@ -15,3 +17,5 @@ class IndexView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['is_not_authors'] = not self.request.user.groups.filter(name='authors').exists()
         return context
+
+
